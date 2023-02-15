@@ -57,7 +57,11 @@
               sha256 = "sha256-NpV0KNN8QNNba0UgjwUPtc/iPFTodBiXeKJLDpIZx+M=";
             };
             enableParallelBuilding = true;
+            buildInputs = [
+              (pkgs.python3.withPackages (ps: [ps.six]))
+            ];
           };
+          otf2-python = pkgs.python3.pkgs.toPythonModule selfpkgs.otf2;
           scorep = pkgs.stdenv.mkDerivation rec {
             pname = "scorep";
             version = "7.1";
@@ -83,7 +87,8 @@
 
           scorep-env = pkgs.symlinkJoin rec {
             name = "scorep-env";
-            paths = with selfpkgs; [scorep otf2 cubelib cubew opari2];
+            paths = with selfpkgs; [scorep otf2 cubelib cubew opari2] ++
+              [(pkgs.python3.withPackages (ps: [ps.six selfpkgs.otf2-python]))];
           };
         };
 
