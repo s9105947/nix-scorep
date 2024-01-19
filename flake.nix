@@ -1,6 +1,8 @@
 {
   description = "Score-P measurement infrastructure";
 
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11"; 
+
   outputs = { self, nixpkgs }:
     {
       packages.x86_64-linux =
