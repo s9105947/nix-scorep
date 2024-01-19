@@ -9,13 +9,17 @@
         let
           pkgs = import nixpkgs { system = "x86_64-linux"; };
           selfpkgs = self.packages.x86_64-linux;
+          majorminor = version:
+            pkgs.lib.strings.concatStringsSep "."
+              (pkgs.lib.lists.sublist 0 2
+                (pkgs.lib.strings.splitString "." version));
         in {
           opari2 = pkgs.stdenv.mkDerivation rec {
             pname = "opari2";
-            version = "2.0.6";
+            version = "2.0.8";
             src = pkgs.fetchurl {
               url = "https://perftools.pages.jsc.fz-juelich.de/cicd/${pname}/tags/${pname}-${version}/${pname}-${version}.tar.gz";
-              sha256 = "sha256-VZciic5mCAu0hiIRDDGJo26IoSkXY18EmzdoW507vLA=";
+              sha256 = "sha256-GW5ZoqYl5seVphJMYeeEutFC+fON8LT6TUNbqbnBlyE=";
             };
             nativeBuildInputs = [pkgs.which];
             propagatedBuildInputs = [pkgs.gawk];
@@ -24,10 +28,10 @@
           };
           cubew = pkgs.stdenv.mkDerivation rec {
             pname = "cubew";
-            version = "4.6";
+            version = "4.8.2";
             src = pkgs.fetchurl {
-              url = "http://apps.fz-juelich.de/scalasca/releases/cube/${version}/dist/${pname}-${version}.tar.gz";
-              sha256 = "sha256-mf5YznqxMGHr+8NgrtrswoCZowY2xSaaQsDLr1cUmqg=";
+              url = "http://apps.fz-juelich.de/scalasca/releases/cube/${majorminor version}/dist/${pname}-${version}.tar.gz";
+              sha256 = "sha256-TzvPBiLCQpuJcrXrPxTXnsibgWHjwcxYYs7aQX15ddI=";
             };
             enableParallelBuilding = true;
             configureFlags = [
@@ -38,10 +42,10 @@
           };
           cubelib = pkgs.stdenv.mkDerivation rec {
             pname = "cubelib";
-            version = "4.6";
+            version = "4.8.2";
             src = pkgs.fetchurl {
-              url = "http://apps.fz-juelich.de/scalasca/releases/cube/${version}/dist/${pname}-${version}.tar.gz";
-              sha256 = "sha256-Nur/p2iNuLkwTJ5Iyl3E7cLLZlOKr0hle5tczXl5OFs=";
+              url = "http://apps.fz-juelich.de/scalasca/releases/cube/${majorminor version}/dist/${pname}-${version}.tar.gz";
+              sha256 = "sha256-1v3vV7G8lZTxRQukbPCPQx3Q1K5ZXEfi80VOF+SudPQ=";
             };
             enableParallelBuilding = true;
             # overwrite false-negative check
@@ -53,10 +57,10 @@
           };
           otf2 = pkgs.stdenv.mkDerivation rec {
             pname = "otf2";
-            version = "2.3";
+            version = "3.0.3";
             src = pkgs.fetchurl {
               url = "https://perftools.pages.jsc.fz-juelich.de/cicd/${pname}/tags/${pname}-${version}/${pname}-${version}.tar.gz";
-              sha256 = "sha256-NpV0KNN8QNNba0UgjwUPtc/iPFTodBiXeKJLDpIZx+M=";
+              sha256 = "sha256-GKOQX3kXNAOH4+3I5XZvMasa9B9OzFZl2mx2nKIcTug=";
             };
             enableParallelBuilding = true;
             buildInputs = [
@@ -66,12 +70,13 @@
           otf2-python = pkgs.python3.pkgs.toPythonModule selfpkgs.otf2;
           scorep = pkgs.stdenv.mkDerivation rec {
             pname = "scorep";
-            version = "7.1";
+            version = "8.3";
             src = pkgs.fetchurl {
               url = "http://perftools.pages.jsc.fz-juelich.de/cicd/${pname}/tags/${pname}-${version}/${pname}-${version}.tar.gz";
-              sha256 = "sha256-mN6kl5ggAfuC2jQpylVmmykXoIWMcaviz+fNETOB8fc=";
+              sha256 = "sha256-dskU5jGSIcBZI0WXo7xT2niO1nkXmsmcFHKE3O+xV0o=";
             };
             propagatedBuildInputs = (with pkgs; [gcc]) ++ (with selfpkgs; [opari2 cubew cubelib otf2]);
+            buildInputs = with pkgs; [ libbfd_2_38 ];
 
             enableParallelBuilding = true;
 
