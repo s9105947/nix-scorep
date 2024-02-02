@@ -17,6 +17,8 @@
 
         scorep = selfCallPackage ./scorep.nix {};
 
+        scorep_plugin_metricq = selfCallPackage ./scorep_plugin_metricq.nix {};
+
         scorep-env = pkgs.symlinkJoin rec {
           name = "scorep-env";
           paths = with selfpkgs; [scorep otf2 cubelib cubew opari2] ++
