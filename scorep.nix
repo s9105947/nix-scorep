@@ -1,11 +1,15 @@
 { stdenv
 , fetchurl
+, lib
 , gcc
 , opari2
 , cubew
 , cubelib
 , otf2
 , libbfd_2_38
+, which
+, with_mpi ? true
+, mpi
 }:
 stdenv.mkDerivation rec {
   pname = "scorep";
@@ -16,18 +20,21 @@ stdenv.mkDerivation rec {
   };
   propagatedBuildInputs = [
     gcc opari2 cubew cubelib otf2
-  ];
+  ] ++ (lib.optionals with_mpi [ mpi ]);
   buildInputs = [ libbfd_2_38 ];
+
+  nativeBuildInputs = [
+    which # required to detect mpi
+  ];
 
   enableParallelBuilding = true;
   configureFlags = [
     "--with-nocross-compiler-suite=gcc"
     "--enable-gcc-plugin"
-    "--without-mpi"
     "--without-shmem"
     "--with-opari2=${opari2}"
     "--with-cubew=${cubew}"
     "--with-cubelib=${cubelib}"
     "--with-otf2=${otf2}"
-  ];
+  ] ++ (lib.optionals (!with_mpi) [ "--without-mpi" ]);
 }

@@ -16,6 +16,7 @@
         otf2-python = pkgs.python3.pkgs.toPythonModule selfpkgs.otf2;
 
         scorep = selfCallPackage ./scorep.nix {};
+        scorep_no_mpi = selfCallPackage ./scorep.nix { with_mpi = false; };
 
         scorep_plugin_metricq = selfCallPackage ./scorep_plugin_metricq.nix {};
 
