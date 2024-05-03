@@ -13,10 +13,10 @@
 }:
 stdenv.mkDerivation rec {
   pname = "scorep";
-  version = "8.3";
+  version = "8.4";
   src = fetchurl {
     url = "http://perftools.pages.jsc.fz-juelich.de/cicd/${pname}/tags/${pname}-${version}/${pname}-${version}.tar.gz";
-    sha256 = "sha256-dskU5jGSIcBZI0WXo7xT2niO1nkXmsmcFHKE3O+xV0o=";
+    sha256 = "sha256-e73poHIdJ8xiBbrxPBYmgzvPursfM7MlotZ5dikPf4o=";
   };
   propagatedBuildInputs = [
     gcc opari2 cubew cubelib otf2
@@ -36,5 +36,5 @@ stdenv.mkDerivation rec {
     "--with-cubew=${cubew}"
     "--with-cubelib=${cubelib}"
     "--with-otf2=${otf2}"
-  ] ++ (lib.optionals (!with_mpi) [ "--without-mpi" ]);
+  ] ++ (if with_mpi then [ "--with-mpi=openmpi" ] else [ "--without-mpi" ]);
 }
