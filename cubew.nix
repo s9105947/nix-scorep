@@ -5,10 +5,10 @@
 with import ./util.nix { lib = lib; };
 stdenv.mkDerivation rec {
   pname = "cubew";
-  version = "4.8.2";
+  version = "4.9";
   src = fetchurl {
     url = "http://apps.fz-juelich.de/scalasca/releases/cube/${majorminor version}/dist/${pname}-${version}.tar.gz";
-    sha256 = "sha256-TzvPBiLCQpuJcrXrPxTXnsibgWHjwcxYYs7aQX15ddI=";
+    sha256 = "sha256-TvdOgcVpv1MRdFnLpaHqUrXaxzlJP6g745Z4hAzSrN0=";
   };
   enableParallelBuilding = true;
   configureFlags = [

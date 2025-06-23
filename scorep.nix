@@ -13,10 +13,10 @@
 }:
 stdenv.mkDerivation rec {
   pname = "scorep";
-  version = "8.4";
+  version = "9.0";
   src = fetchurl {
     url = "http://perftools.pages.jsc.fz-juelich.de/cicd/${pname}/tags/${pname}-${version}/${pname}-${version}.tar.gz";
-    sha256 = "sha256-e73poHIdJ8xiBbrxPBYmgzvPursfM7MlotZ5dikPf4o=";
+    sha256 = "sha256-XQpdtMxvMcMK4Dx+b2JF6DZnsP84pwQf/osujlgeCZc=";
   };
   propagatedBuildInputs = [
     gcc opari2 cubew cubelib otf2
